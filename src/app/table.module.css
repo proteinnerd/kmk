@@ -49,4 +49,32 @@
 .col4 {
   width: 260px;
   text-align: right;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.75rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem;
+  }
+
+  .col1 {
+    width: 40px;
+  }
+
+  .col2 {
+    width: auto;
+  }
+
+  .col3 {
+    width: 80px;
+  }
+
+  .col4 {
+    width: 80px;
+  }
 } 

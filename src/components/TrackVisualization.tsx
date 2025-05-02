@@ -86,20 +86,20 @@ export default function TrackVisualization({ totalPenalties, runners = [] }: Tra
   const sortedRunners = [...runners].sort((a, b) => b.penalty - a.penalty);
 
   return (
-    <div className="bg-white/5 p-6 rounded-lg">
-      <h3 className="text-white text-lg mb-4">Track Visualization</h3>
-      <div className="flex items-center gap-4 mb-6">
-        <div className="text-white">
-          <div className="text-3xl font-bold">{totalLaps}</div>
-          <div className="text-sm text-gray-400">Full Laps</div>
+    <div className="bg-white/5 p-4 sm:p-6 rounded-lg">
+      <h3 className="text-white text-base sm:text-lg mb-4">Track Visualization</h3>
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <div className="text-white flex-1 min-w-[100px]">
+          <div className="text-2xl sm:text-3xl font-bold">{totalLaps}</div>
+          <div className="text-xs sm:text-sm text-gray-400">Full Laps</div>
         </div>
-        <div className="text-white">
-          <div className="text-3xl font-bold">{remainingMeters}</div>
-          <div className="text-sm text-gray-400">Extra Meters</div>
+        <div className="text-white flex-1 min-w-[100px]">
+          <div className="text-2xl sm:text-3xl font-bold">{remainingMeters}</div>
+          <div className="text-xs sm:text-sm text-gray-400">Extra Meters</div>
         </div>
-        <div className="text-white">
-          <div className="text-3xl font-bold">{totalPenalties}</div>
-          <div className="text-sm text-gray-400">Total Meters</div>
+        <div className="text-white flex-1 min-w-[100px]">
+          <div className="text-2xl sm:text-3xl font-bold">{totalPenalties}</div>
+          <div className="text-xs sm:text-sm text-gray-400">Total Meters</div>
         </div>
       </div>
 
@@ -146,8 +146,9 @@ export default function TrackVisualization({ totalPenalties, runners = [] }: Tra
                 x="1000"
                 y={i * 35 + 22}
                 fill="rgba(255, 255, 255, 0.4)"
-                fontSize="16"
+                fontSize="12"
                 textAnchor="middle"
+                className="hidden sm:block"
               >
                 {i === 7 ? '' : 7 - i}
               </text>
@@ -192,55 +193,28 @@ export default function TrackVisualization({ totalPenalties, runners = [] }: Tra
                 >
                   {/* Background for text */}
                   <rect
-                    x="-100"
+                    x="-80"
                     y="-65"
-                    width="200"
+                    width="160"
                     height="30"
                     rx="6"
                     fill="rgba(0, 0, 0, 0.8)"
                   />
-                  {/* Runner circle with lap count */}
-                  <circle r="25" fill={color} stroke="white" strokeWidth="3" />
+                  {/* Runner name */}
                   <text
                     x="0"
-                    y="7"
+                    y="-45"
                     fill="white"
-                    fontSize="20"
-                    fontWeight="bold"
+                    fontSize="12"
                     textAnchor="middle"
-                    className="pointer-events-none"
+                    className="font-medium"
                   >
-                    {runnerLaps}
+                    {runner.name}
                   </text>
-                  {/* Runner name as clickable link */}
-                  <Link 
-                    href={`/team/${runner.entry_id}`}
-                    className="hover:text-blue-300 transition-colors"
-                  >
-                    <text
-                      x="0"
-                      y="-45"
-                      fill="currentColor"
-                      fontSize="20"
-                      fontWeight="bold"
-                      textAnchor="middle"
-                      className="cursor-pointer text-white hover:text-blue-300"
-                    >
-                      {runner.name}
-                    </text>
-                  </Link>
-                  {/* Runner penalty */}
-                  <text
-                    x="0"
-                    y="55"
-                    fill="white"
-                    fontSize="18"
-                    fontWeight="500"
-                    textAnchor="middle"
-                    className="pointer-events-none"
-                  >
-                    {runner.penalty}m
-                  </text>
+                  {/* Runner icon */}
+                  <g transform="translate(-16, -16)" fill={color}>
+                    <RunnerIcon />
+                  </g>
                 </g>
               );
             })}

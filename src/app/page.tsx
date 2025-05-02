@@ -111,7 +111,7 @@ export default function Home() {
     <div className="bg-[#1a1d24] min-h-screen">
       <div className="max-w-[1200px] mx-auto p-4">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-full flex justify-start mb-2">
+          <div className="w-full flex justify-between items-center flex-wrap gap-4">
             <Link
               href="/pace-calculator"
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2"
@@ -119,120 +119,123 @@ export default function Home() {
               <span>⏱️</span>
               <span>PaceCalc</span>
             </Link>
+            <h1 className="text-lg font-bold text-white">{data.leagueName}</h1>
           </div>
 
-          <h1 className="text-lg font-bold text-white text-center">{data.leagueName}</h1>
-
           {/* Track Visualization */}
-          <div className="w-full">
-            <TrackVisualization 
-              totalPenalties={data.historicalGameweeks
-                .filter(gw => gw.gameweek <= selectedGameweek)
-                .reduce((total, gw) => {
-                  return total + gw.standings.reduce((gwTotal, standing) => gwTotal + standing.penalty, 0);
-                }, 0)
-              }
-              runners={data.historicalGameweeks
-                .filter(gw => gw.gameweek === selectedGameweek)
-                .flatMap(gw => gw.standings)
-                .map(standing => ({
-                  name: standing.entry_name,
-                  entry_id: standing.entry_id,
-                  penalty: data.historicalGameweeks
-                    .filter(gw => gw.gameweek <= selectedGameweek)
-                    .reduce((total, gw) => {
-                      const playerStanding = gw.standings.find(s => s.entry_name === standing.entry_name);
-                      return total + (playerStanding?.penalty || 0);
-                    }, 0)
-                }))
-              }
-            />
+          <div className="w-full overflow-x-auto">
+            <div className="min-w-[800px]">
+              <TrackVisualization 
+                totalPenalties={data.historicalGameweeks
+                  .filter(gw => gw.gameweek <= selectedGameweek)
+                  .reduce((total, gw) => {
+                    return total + gw.standings.reduce((gwTotal, standing) => gwTotal + standing.penalty, 0);
+                  }, 0)
+                }
+                runners={data.historicalGameweeks
+                  .filter(gw => gw.gameweek === selectedGameweek)
+                  .flatMap(gw => gw.standings)
+                  .map(standing => ({
+                    name: standing.entry_name,
+                    entry_id: standing.entry_id,
+                    penalty: data.historicalGameweeks
+                      .filter(gw => gw.gameweek <= selectedGameweek)
+                      .reduce((total, gw) => {
+                        const playerStanding = gw.standings.find(s => s.entry_name === standing.entry_name);
+                        return total + (playerStanding?.penalty || 0);
+                      }, 0)
+                  }))
+                }
+              />
+            </div>
           </div>
 
           {/* Total Penalties Table */}
-          <div className="table-container w-full">
-            <div className="table-header flex justify-between items-center">
-              <h2 className="text-white">Penalty Table</h2>
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={handlePrevGw}
-                  disabled={selectedGameweek <= minGw}
-                  className={`text-white px-4 py-2 rounded ${
-                    selectedGameweek <= minGw 
-                      ? 'opacity-50 cursor-not-allowed' 
-                      : 'hover:bg-white/10'
-                  }`}
-                >
-                  ←
-                </button>
-                <span className="text-white font-medium">
-                  Up to GW {selectedGameweek}
-                </span>
-                <button
-                  onClick={handleNextGw}
-                  disabled={selectedGameweek >= maxGw}
-                  className={`text-white px-4 py-2 rounded ${
-                    selectedGameweek >= maxGw 
-                      ? 'opacity-50 cursor-not-allowed' 
-                      : 'hover:bg-white/10'
-                  }`}
-                >
-                  →
-                </button>
+          <div className="table-container w-full overflow-x-auto">
+            <div className="min-w-[600px]">
+              <div className="table-header flex justify-between items-center mb-4 flex-wrap gap-4">
+                <h2 className="text-white text-base sm:text-lg">Penalty Table</h2>
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <button
+                    onClick={handlePrevGw}
+                    disabled={selectedGameweek <= minGw}
+                    className={`text-white px-2 sm:px-4 py-2 rounded ${
+                      selectedGameweek <= minGw 
+                        ? 'opacity-50 cursor-not-allowed' 
+                        : 'hover:bg-white/10'
+                    }`}
+                  >
+                    ←
+                  </button>
+                  <span className="text-white font-medium text-sm sm:text-base whitespace-nowrap">
+                    Up to GW {selectedGameweek}
+                  </span>
+                  <button
+                    onClick={handleNextGw}
+                    disabled={selectedGameweek >= maxGw}
+                    className={`text-white px-2 sm:px-4 py-2 rounded ${
+                      selectedGameweek >= maxGw 
+                        ? 'opacity-50 cursor-not-allowed' 
+                        : 'hover:bg-white/10'
+                    }`}
+                  >
+                    →
+                  </button>
+                </div>
               </div>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th className={styles.col1}>#</th>
+                    <th className={styles.col2}>Name</th>
+                    <th className={styles.col3}>Total Points</th>
+                    <th className={styles.col4}>Total Penalty (meters)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.historicalGameweeks
+                    .filter(gw => gw.gameweek <= selectedGameweek)
+                    .reduce((acc, gw) => {
+                      gw.standings.forEach(standing => {
+                        const existingManager = acc.find(m => m.entry_id === standing.entry_id);
+                        if (existingManager) {
+                          existingManager.totalPenalty += standing.penalty;
+                        } else {
+                          acc.push({
+                            entry_id: standing.entry_id,
+                            name: standing.entry_name,
+                            totalPenalty: standing.penalty,
+                            totalPoints: 0 // We'll update this in the next pass
+                          });
+                        }
+                      });
+                      return acc;
+                    }, [] as Array<{entry_id: number; name: string; totalPenalty: number; totalPoints: number}>)
+                    .sort((a, b) => b.totalPenalty - a.totalPenalty)
+                    .map((standing, index) => (
+                      <tr key={standing.name}>
+                        <td className={styles.col1}>{index + 1}</td>
+                        <td className={styles.col2}>
+                          <TeamLink 
+                            name={standing.name} 
+                            entryId={standing.entry_id} 
+                            gameweek={selectedGameweek}
+                          />
+                        </td>
+                        <td className={styles.col3}>
+                          {data.historicalGameweeks
+                            .filter(gw => gw.gameweek <= selectedGameweek)
+                            .reduce((total, gw) => {
+                              const managerStanding = gw.standings.find(s => s.entry_id === standing.entry_id);
+                              return total + (managerStanding?.event_total || 0);
+                            }, 0)}
+                        </td>
+                        <td className={styles.col4}>{standing.totalPenalty}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
             </div>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th className={styles.col1}>#</th>
-                  <th className={styles.col2}>Name</th>
-                  <th className={styles.col3}>Total Points</th>
-                  <th className={styles.col4}>Total Penalty (meters)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.historicalGameweeks
-                  .filter(gw => gw.gameweek <= selectedGameweek)
-                  .reduce((acc, gw) => {
-                    gw.standings.forEach(standing => {
-                      const existingManager = acc.find(m => m.entry_id === standing.entry_id);
-                      if (existingManager) {
-                        existingManager.totalPenalty += standing.penalty;
-                      } else {
-                        acc.push({
-                          entry_id: standing.entry_id,
-                          name: standing.entry_name,
-                          totalPenalty: standing.penalty,
-                          totalPoints: 0 // We'll update this in the next pass
-                        });
-                      }
-                    });
-                    return acc;
-                  }, [] as Array<{entry_id: number; name: string; totalPenalty: number; totalPoints: number}>)
-                  .sort((a, b) => b.totalPenalty - a.totalPenalty)
-                  .map((standing, index) => (
-                    <tr key={standing.name}>
-                      <td className={styles.col1}>{index + 1}</td>
-                      <td className={styles.col2}>
-                        <TeamLink 
-                          name={standing.name} 
-                          entryId={standing.entry_id} 
-                          gameweek={selectedGameweek}
-                        />
-                      </td>
-                      <td className={styles.col3}>
-                        {data.historicalGameweeks
-                          .filter(gw => gw.gameweek <= selectedGameweek)
-                          .reduce((total, gw) => {
-                            const managerStanding = gw.standings.find(s => s.entry_id === standing.entry_id);
-                            return total + (managerStanding?.event_total || 0);
-                          }, 0)}
-                      </td>
-                      <td className={styles.col4}>{standing.totalPenalty}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
           </div>
 
           {/* Penalty Graph */}
