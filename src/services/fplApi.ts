@@ -105,7 +105,8 @@ async function fetchHistoricalGameweeks(leagueId: number, startGw: number, curre
         return {
           entry_name: team.entry_name,
           event_total: gwData?.points || 0,
-          rank: gwData?.rank || 0
+          rank: gwData?.rank || 0,
+          entry_id: teams.find(t => t.entry_name === team.entry_name)?.entry_id || 0
         };
       });
 
@@ -117,7 +118,8 @@ async function fetchHistoricalGameweeks(leagueId: number, startGw: number, curre
       position: index + 1,
       entry_name: result.entry_name,
       event_total: result.event_total,
-      penalty: calculatePenalty(index + 1)
+      penalty: calculatePenalty(index + 1),
+      entry_id: result.entry_id
     }));
 
     gameweeks.push({
