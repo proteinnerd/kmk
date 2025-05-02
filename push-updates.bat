@@ -4,6 +4,6 @@ echo Initializing and pushing to GitHub...
 "C:\Program Files\Git\cmd\git.exe" add .
 "C:\Program Files\Git\cmd\git.exe" commit -m "Initial commit: %DATE% %TIME%"
 "C:\Program Files\Git\cmd\git.exe" branch -M main
-"C:\Program Files\Git\cmd\git.exe" remote add origin https://github.com/sondreee/kmk.git
+"C:\Program Files\Git\cmd\git.exe" remote add origin https://github.com/proteinnerd/kmk.git
 "C:\Program Files\Git\cmd\git.exe" push -u origin main
 echo Done! 
