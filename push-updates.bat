@@ -1,6 +1,7 @@
 @echo off
 echo Initializing and pushing to GitHub...
 "C:\Program Files\Git\cmd\git.exe" init
+"C:\Program Files\Git\cmd\git.exe" remote remove origin
 "C:\Program Files\Git\cmd\git.exe" add .
 "C:\Program Files\Git\cmd\git.exe" commit -m "Initial commit: %DATE% %TIME%"
 "C:\Program Files\Git\cmd\git.exe" branch -M main
