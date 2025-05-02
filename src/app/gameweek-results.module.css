@@ -1,0 +1,49 @@
+.container {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.table {
+  width: 1000px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.positionColumn {
+  width: 100px !important;
+}
+
+.nameColumn {
+  width: 600px !important;
+}
+
+.pointsColumn {
+  width: 160px !important;
+}
+
+.metersColumn {
+  width: 160px !important;
+}
+
+.cell {
+  padding: 0.75rem 1rem;
+}
+
+.rightAlign {
+  text-align: right;
+}
+
+.centerAlign {
+  text-align: center;
+}
+
+.leftAlign {
+  text-align: left;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} 

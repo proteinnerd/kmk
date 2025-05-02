@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-dark: #1a1d24;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --border-color: #2d3748;
+}
+
+body {
+  background-color: var(--background-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* Container Styles */
+.table-container {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.table-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.table-header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.table-header h2 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Scrollbar Styles */
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 3px;
+}
+
+/* Base Table Styles */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Column Widths */
+table th:first-child,
+table td:first-child {
+  width: 50px;
+  text-align: center;
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 450px;
+  text-align: left;
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+  width: 250px;
+  text-align: right;
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+  width: 250px;
+  text-align: right;
+}
+
+th {
+  color: var(--text-secondary);
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.03);
+  letter-spacing: 0.5px;
+}
+
+td {
+  color: var(--text-primary);
+}
+
+/* Penalty Table Styles */
+.penalty-table {
+  width: 1000px;
+}
+
+.penalty-table th:first-child,
+.penalty-table td:first-child {
+  width: 80px;
+  text-align: right;
+}
+
+.penalty-table th:nth-child(2),
+.penalty-table td:nth-child(2) {
+  width: 400px;
+  text-align: left;
+}
+
+.penalty-table th:nth-child(3),
+.penalty-table td:nth-child(3) {
+  width: 360px;
+  text-align: right;
+}
+
+.penalty-table th:nth-child(4),
+.penalty-table td:nth-child(4) {
+  width: 320px;
+  text-align: right;
+}
+
+/* Hover Effects */
+tr:hover td {
+  background-color: rgba(255, 255, 255, 0.03);
+  transition: background-color 0.2s ease;
+}
+
+/* Responsive container */
+.responsive-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.gradient-border {
+  background: var(--accent-gradient);
+  padding: 1px;
+  border-radius: 0.5rem;
+}
+
+.gradient-border > div {
+  background: var(--card-dark);
+  border-radius: 0.5rem;
+} 

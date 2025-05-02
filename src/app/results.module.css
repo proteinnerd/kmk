@@ -1,0 +1,34 @@
+.resultsTable {
+  width: 1000px !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed !important;
+}
+
+.resultsTable th.firstColumn,
+.resultsTable td.firstColumn {
+  width: 100px !important;
+  min-width: 100px !important;
+  max-width: 100px !important;
+}
+
+.resultsTable th.nameColumn,
+.resultsTable td.nameColumn {
+  width: 500px !important;
+  min-width: 500px !important;
+  max-width: 500px !important;
+}
+
+.resultsTable th.pointsColumn,
+.resultsTable td.pointsColumn {
+  width: 200px !important;
+  min-width: 200px !important;
+  max-width: 200px !important;
+}
+
+.resultsTable th.penaltyColumn,
+.resultsTable td.penaltyColumn {
+  width: 200px !important;
+  min-width: 200px !important;
+  max-width: 200px !important;
+} 
